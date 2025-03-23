@@ -19,13 +19,3 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.author}"
-
-class Review(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
-    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    comment = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Review for {self.book.title} - {self.rating} stars"

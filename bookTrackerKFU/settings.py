@@ -80,9 +80,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'booktracker_db',
         'USER': 'booktracker_user',
-        'PASSWORD': 'postgres',  # Пароль
-        'HOST': 'localhost',  # Или IP сервера
-        'PORT': '5432',  # Порт PostgreSQL
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -128,3 +128,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/books/"
+LOGOUT_REDIRECT_URL = "/auth/login/"

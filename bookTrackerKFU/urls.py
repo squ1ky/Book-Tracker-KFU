@@ -17,12 +17,33 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from . import views
+from .views import (
+    BookListView, BookDetailView, BookCreateView,
+    BookUpdateView, BookDeleteView, SignUpView
+)
+from django.views.generic import RedirectView
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
+def custom_logout(request):
+    logout(request)
+    return redirect("login")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
-    path('register/', views.register, name='register'),
-    path('login/', auth_views.LoginView.as_view(template_name='books/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
+    path("admin/", admin.site.urls),
+
+    # Authentication
+    path("auth/login/", auth_views.LoginView.as_view(), name="login"),
+    path("auth/logout/", custom_logout, name="logout"),
+    path("auth/signup/", SignUpView.as_view(), name="signup"),
+
+    # Books
+    path("books/", BookListView.as_view(), name="book_list"),
+    path("books/<int:pk>/", BookDetailView.as_view(), name="book_detail"),
+    path("books/create/", BookCreateView.as_view(), name="book_create"),
+    path("books/<int:pk>/edit/", BookUpdateView.as_view(), name="book_edit"),
+    path("books/<int:pk>/delete/", BookDeleteView.as_view(), name="book_delete"),
+
+    path("", RedirectView.as_view(url="/books/", permanent=False)),
 ]
+
